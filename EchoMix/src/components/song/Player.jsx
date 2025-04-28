@@ -26,7 +26,7 @@ const Player = () => {
         maxWidth: "100%"
       }}>
         <source 
-          src="../assets/songlist/song.mp3" 
+          src="../songlist/song.mp3" 
           type="audio/mp3" 
         />
       </audio>

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './index.css';
+import './song.css';
 import CustomNavbar from './components/Navbar';
 import SongInfo from './components/SongInfo';
 import Player from './components/Player';
