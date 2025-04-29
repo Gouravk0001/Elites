@@ -46,7 +46,7 @@ function Home() {
 
   return (
     <>
-      <div className="container">
+      <div className="container" style={{ marginLeft: "200px" }}>
         <NavBar className="navBar"></NavBar>
         <div className="mainContent">
           <div className="profileBar">
