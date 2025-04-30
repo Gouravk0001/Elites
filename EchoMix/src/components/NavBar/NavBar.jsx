@@ -21,6 +21,7 @@ function NavBar() {
       <div className="moreOptionContainer">
         <div className="contTitle">More options</div>
         <li>Contact us</li>
+        <li>Features</li>
         <li>About us</li>
         <li>Rate us</li>
       </div>
