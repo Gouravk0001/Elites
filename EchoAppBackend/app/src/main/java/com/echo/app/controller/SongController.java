@@ -146,5 +146,9 @@ public class SongController {
             return ResponseEntity.status(500).body("Failed to delete song: " + e.getMessage());
         }
     }
+    @GetMapping("/playlist")
+    public List<Song> getSongsByLanguage(@RequestParam String language) {
+        return songService.getSongsByLanguage(language);
+    }
 
 }

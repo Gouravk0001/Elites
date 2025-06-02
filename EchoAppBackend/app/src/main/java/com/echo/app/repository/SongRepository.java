@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.echo.app.entity.Song;
 
 public interface SongRepository extends MongoRepository<Song,ObjectId> {
-
+    List<Song> findByLanguageIgnoreCase(String language);
 }
