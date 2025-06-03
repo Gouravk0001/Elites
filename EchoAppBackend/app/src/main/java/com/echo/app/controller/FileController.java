@@ -22,7 +22,7 @@ public class FileController {
     public void getFileById(@PathVariable String id, HttpServletResponse response) throws IOException {
         GridFSFile file = gridFsTemplate.findOne(query(where("_id").is(new ObjectId(id))));
         if (file == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setStatus(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         InputStreamResource resource = new InputStreamResource(gridFsTemplate.getResource(file).getInputStream());

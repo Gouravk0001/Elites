@@ -1,5 +1,6 @@
 package com.echo.app.service;
 import java.util.Optional;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,6 @@ public class SongService {
     }
 
     public List<Song> getSongsByLanguage(String language) {
-        return songRepository.findByLanguageIgnoreCase(language);
+        return songrepository.findByLanguageIgnoreCase(language);
     }
 }
