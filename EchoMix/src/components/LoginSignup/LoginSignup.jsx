@@ -1,4 +1,4 @@
-import React, { use, useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../UserContext/UserContext";
@@ -8,7 +8,7 @@ const USER_BASE_URL = "http://localhost:8080/user";
 const OTP_BASE_URL = "http://localhost:8080/otp";
 
 export default function LoginSignup() {
-  const { user,setUser } = useUser();
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -20,12 +20,14 @@ export default function LoginSignup() {
   // Signup
   const [signupOtpSent, setSignupOtpSent] = useState(false);
   const [signupOtp, setSignupOtp] = useState("");
+  const [sendOtpDisabled, setSendOtpDisabled] = useState(false);
+  const [showResendOtp, setShowResendOtp] = useState(false);
 
-  useEffect(()=>{
-    if(user) {
+  useEffect(() => {
+    if (user) {
       navigate("/home");
     }
-  });
+  }, [user, navigate]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,6 +43,27 @@ export default function LoginSignup() {
       ...prev,
       [name]: files ? files[0] : value,
     }));
+  };
+
+  const startOtpCooldown = () => {
+    setSendOtpDisabled(true);
+    setShowResendOtp(false);
+    setTimeout(() => {
+      setShowResendOtp(true);
+    }, 30000); // 30 seconds
+  };
+
+  const sendOtp = async () => {
+    try {
+      await axios.post(`${OTP_BASE_URL}/send-otp`, {
+        email: formData.email,
+      });
+      alert("OTP sent to your email.");
+      setSignupOtpSent(true);
+      startOtpCooldown();
+    } catch (error) {
+      alert("Error sending OTP: " + (error.response?.data || error.message));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -63,11 +86,7 @@ export default function LoginSignup() {
     } else {
       try {
         if (!signupOtpSent) {
-          await axios.post(`${OTP_BASE_URL}/send-otp`, {
-            email: formData.email,
-          });
-          alert("OTP sent to your email.");
-          setSignupOtpSent(true);
+          await sendOtp();
         } else {
           const verifyRes = await axios.post(
             `${OTP_BASE_URL}/verify-otp?otp=${signupOtp}`,
@@ -107,6 +126,10 @@ export default function LoginSignup() {
     }
   };
 
+  const handleResendOtp = async () => {
+    await sendOtp(); // same function as initial OTP
+  };
+
   return (
     <div className="container">
       <div className="form-container">
@@ -125,6 +148,8 @@ export default function LoginSignup() {
             onClick={() => {
               setIsLogin(false);
               setSignupOtpSent(false);
+              setSendOtpDisabled(false);
+              setShowResendOtp(false);
             }}
           >
             Signup
@@ -151,8 +176,7 @@ export default function LoginSignup() {
                 onChange={handleChange}
                 required
               />
-              
-              <button type="submit" onClick={handleSubmit}>Login</button>
+              <button type="submit">Login</button>
             </>
           ) : (
             <>
@@ -204,9 +228,27 @@ export default function LoginSignup() {
                   required
                 />
               )}
-              <button type="submit">
-                {signupOtpSent ? "Verify OTP & Signup" : "Send OTP"}
-              </button>
+              {!signupOtpSent ? (
+                <button
+                  type="submit"
+                  disabled={sendOtpDisabled}
+                >
+                  Send OTP
+                </button>
+              ) : (
+                <>
+                  <button type="submit">Verify OTP & Signup</button>
+                  {showResendOtp && (
+                    <button
+                      type="button"
+                      onClick={handleResendOtp}
+                      style={{ marginTop: "10px", backgroundColor: "#f0ad4e" }}
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+                </>
+              )}
             </>
           )}
         </form>
