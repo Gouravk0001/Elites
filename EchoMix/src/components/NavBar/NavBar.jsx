@@ -30,6 +30,9 @@ function NavBar() {
   function toRateUs(){
     navigate("/rateus");
   }
+  function toLikedSongs(){
+    navigate("/liked");
+  }
   return (
     <div className="navBar">
       <div className="libButtons">
@@ -44,6 +47,7 @@ function NavBar() {
         <div className="contTitle">My Music</div>
         <li>Recently Played</li>
         <li>My Songs</li>
+        <li onClick={toLikedSongs}>Liked Songs</li>
         <li onClick={toUpload}>Upload Song</li>
       </div>
       

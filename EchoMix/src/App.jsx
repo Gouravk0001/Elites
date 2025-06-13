@@ -14,8 +14,7 @@ import Features from './components/Features/Features';
 import ContactUsPage from './components/ContactUs/ContactUsPage';
 import Browse from './components/Browse/Browse';
 import RateUs from './components/Rateus/Rateus';
-
-
+import LikedSongs from './components/LikedSongs/LikedSongs';
 function App() {
   return (
     <>
@@ -34,6 +33,7 @@ function App() {
             <Route path='/contactUsPage' element={<ContactUsPage />} />
             <Route path='/browse' element={<Browse />} />
             <Route path='/rateus' element={<RateUs />} />
+            <Route path='/liked' element={<LikedSongs />} />
 
           </Routes>
         </Router>
